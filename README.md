@@ -1,6 +1,7 @@
 # Forecasting Monthly Temperature Anomalies with LSTM and Classical Machine Learning
 
 **MSc dissertation — MSc in IT for Business Data Analytics, International Business School (May 2023)**
+
 Author: Alireza Esmaeily Brojerdi · Supervisor: Zsofia Gyarmathy
 
 Full dissertation: [`Esmaeily_Brojerdi_MSc_Thesis_Climate_Anomaly_Forecasting.pdf`](Esmaeily_Brojerdi_MSc_Thesis_Climate_Anomaly_Forecasting.pdf) (77 pages)
@@ -38,28 +39,34 @@ average temperatures and greenhouse-gas emissions.
 ## Pipeline
 
 **1 · Data quality**
+
 Missing-value and duplicate audit (0 duplicates), dtype correction, `datetime` parsing, removal of
 unused columns, and reconciliation of **leap years and 28/29 February** so every year contributes a
 comparable monthly series → 1,458 → **1,429 rows**.
 
 **2 · Exploration**
+
 Correlation heatmap, **autocorrelation and lag analysis** of the anomaly series, and distribution /
 time-series plots per city and country.
 
 **3 · Scaling**
+
 `MinMaxScaler` and `StandardScaler` compared; min–max scaling carried forward for the sequence model.
 
 **4 · Outlier handling — three methods compared**
+
 Z-score (|z| > 2), **IQR** (1.5 × IQR fences) and the robust **modified Z-score**
 (0.6745 · (x − median) / MAD), which is less distorted by extreme values because it uses the median
 and MAD instead of mean and standard deviation. The modified Z-score set was used for modelling →
 **1,308 rows**.
 
 **5 · Feature selection**
+
 Random-Forest feature importance on the cleaned frame (`upper_95_ci` ≈ 0.60, `lower_95_ci` ≈ 0.32
 dominate; calendar flags ≈ 0).
 
 **6 · Models**
+
 80/20 train–test split, MSE and R² on a held-out set.
 
 | Model | MSE | R² |
@@ -71,6 +78,7 @@ dominate; calendar flags ≈ 0).
 | Neural Network Regression (MLP) | 2.88 × 10¹⁴ | diverged — unscaled inputs |
 
 **7 · LSTM (Keras / TensorFlow)**
+
 Sequences of **3 time steps** (three preceding months) over the scaled feature matrix, an
 `LSTM(64)` layer with a dense regression head, MSE loss, Adam optimiser, **early stopping**
 (patience 5) on a 20 % validation split, 50 epochs max, batch size 32 — then a three-month-ahead
@@ -112,5 +120,7 @@ so the notebook logic can be read directly from the PDF.
 ## Author
 
 **Alireza Esmaeily Brojerdi** — Data Analyst, Munich
+
 MSc IT for Business Data Analytics · BSc Information Technology Engineering
+
 More projects: [github.com/AESMAEILY](https://github.com/AESMAEILY)
